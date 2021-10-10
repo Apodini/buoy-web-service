@@ -19,7 +19,7 @@ struct BuoyWebService: WebService {
     var content: some Component {
         Group("sensors") {
             Sensor()
-        }
+        }.metadata(DeploymentDevice(.default))
 
         Group("data") {
             SensorData()
