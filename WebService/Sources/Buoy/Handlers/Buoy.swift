@@ -1,7 +1,9 @@
 import Apodini
 import ApodiniHTTP
 import ArgumentParser
-
+import DeploymentTargetIoTRuntime
+import ApodiniDeploy
+import DeploymentTargetIoTRuntime
 
 @main
 struct BuoyWebService: WebService {
@@ -11,6 +13,7 @@ struct BuoyWebService: WebService {
     var configuration: Configuration {
         HTTPConfiguration(port: port)
         HTTP()
+        ApodiniDeploy(runtimes: [IoTRuntime<Self>.self])
     }
 
     var content: some Component {
