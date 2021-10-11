@@ -7,11 +7,9 @@ import DeploymentTargetIoTRuntime
 
 @main
 struct BuoyWebService: WebService {
-    @Option(help: "The port the web service is offered at")
-    var port: Int = 80
-
+    
     var configuration: Configuration {
-        HTTPConfiguration(port: port)
+        HTTPConfiguration(port: 8080)
         HTTP()
         ApodiniDeploy(runtimes: [IoTRuntime<Self>.self])
     }

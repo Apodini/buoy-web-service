@@ -4,10 +4,14 @@ services:
   # An Apodini Buoy Web Service
   buoy-web-service:
     container_name: "buoy-web-service"
-    image: "ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:latest"
+    image: "hendesi/master-thesis:buoy-web-service"
     # Expose port 8080 of container on port 443 of host
     ports:
       - "80:80"
     # Mount directory for config and sensor data
+    privileged: true
+    user: root
     volumes:
       - ../buoy:/buoy
+      - ${ENV_DEPLOYPATH}:/app/tmp:Z
+    command: ${ENV_COMMAND}
