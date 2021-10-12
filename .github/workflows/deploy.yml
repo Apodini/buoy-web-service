@@ -10,15 +10,18 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-    - name: Clone Repository
-      uses: actions/checkout@v2
     - name: Clone Deployment Provider Repo
       uses: actions/checkout@v2
       with:
         repository: 'hendesi/buoy-deployment-provider'
         ref: develop
+    - name: Clone WebService Repo
+      uses: actions/checkout@v2
+      with:
+        path: buoy-deployment-provider
     - name: Create Config File
       run: > 
+          cd ..
           echo "
                 [
                   {
