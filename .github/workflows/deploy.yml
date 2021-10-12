@@ -39,7 +39,7 @@ jobs:
                 ]
                 " > config.json
       env:
-          docker_username: ${{ secrects.DOCKER_UN }}
+          docker_username: ${{ secrets.DOCKER_UN }}
           docker_password: ${{ secrets.DOCKER_SECRET }}
     - name: Build and Run Provider
       run: swift run BuoyDeploymentTarget --config-file config.json --docker-compose-path /home/runner/work/Apodini/buoy-web-service/docker-compose.yml
