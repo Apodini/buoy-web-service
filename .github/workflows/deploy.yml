@@ -20,7 +20,7 @@ jobs:
       with:
         path: buoy-deployment-provider
     - name: Go to deployment provider dir
-      run: ls; cd ..; ls
+      run: pwd; cd ..; pwd
     - name: Create Config File
       run: > 
           echo "
