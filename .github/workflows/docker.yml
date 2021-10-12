@@ -1,15 +1,18 @@
 name: Build Docker Image
 
 on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
   release:
     types: [published]
-  workflow_dispatch:
-
 
 jobs:
-  dockerarm:
-    name: Docker Build and Push ARM64 Image
-    runs-on: ARM64
+
+  build:
+
+    runs-on: self-hosted
     steps:
       - name: Cleanup Self Hosted Runner
         if: always()
@@ -24,9 +27,9 @@ jobs:
       - name: Log in to the container registry
         uses: docker/login-action@v1
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.io
+          username: ${{ secrets.DOCKER_UN_SECRET }}
+          password: ${{ secrets.DOCKER_SECRET }}
       - name: Build and push docker image
         id: buildandpush
         uses: docker/build-push-action@v2
@@ -34,61 +37,6 @@ jobs:
           context: .
           file: ./WebService/Dockerfile
           push: true
-          tags: ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:latest-arm64,ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:${{ steps.latesttag.outputs.tag }}-arm64
+          tags: ${{ secrets.DOCKER_UN_SECRET }}/master-thesis:buoy-web-service
       - name: Image digest
         run: echo ${{ steps.buildandpush.outputs.digest }}
-  dockeramd:  
-    name: Docker Build and Push AMD64 Image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Get latest tag
-        id: latesttag
-        uses: WyriHaximus/github-action-get-previous-tag@v1
-        with:
-          fallback: latest
-      - name: Log in to the container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push docker image
-        id: buildandpush
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./WebService/Dockerfile
-          push: true
-          tags: ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:latest-amd64,ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:${{ steps.latesttag.outputs.tag }}-amd64
-      - name: Image digest
-        run: echo ${{ steps.buildandpush.outputs.digest }}
-  dockermanifest:
-    needs: [dockerarm, dockeramd]
-    name: Create Multi-CPU Architecture Image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Get latest tag
-        id: latesttag
-        uses: WyriHaximus/github-action-get-previous-tag@v1
-        with:
-          fallback: latest
-      - name: Log in to the container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create and Push Multi Architecture Image
-        run: |
-            docker manifest create ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:latest \
-              --amend ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:latest-amd64 \
-              --amend ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:latest-arm64
-            docker manifest create ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:${{ steps.latesttag.outputs.tag }} \
-              --amend ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:${{ steps.latesttag.outputs.tag }}-amd64 \
-              --amend ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:${{ steps.latesttag.outputs.tag }}-arm64
-            docker manifest push ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:latest
-            docker manifest push ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:${{ steps.latesttag.outputs.tag }}
