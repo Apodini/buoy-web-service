@@ -20,16 +20,19 @@ jobs:
         repository: 'hendesi/buoy-deployment-provider'
         ref: develop
     - name: Create Config File
-      run: echo "
+      run: > 
+          echo "
                 [
                   {
-                    "_workstation._tcp.": {
+                    "_workstation._tcp.":
+                    {
                         "username": "ubuntu",
                         "password": "raspberry"
                     }
                   },
                   {
-                    "docker-compose": {
+                    "docker-compose": 
+                    {
                       "username": $docker_username,
                       "password": $docker_password
                     }
