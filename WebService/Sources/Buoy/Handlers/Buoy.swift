@@ -3,7 +3,6 @@ import ApodiniHTTP
 import ArgumentParser
 import DeploymentTargetIoTRuntime
 import ApodiniDeploy
-import DeploymentTargetIoTRuntime
 
 @main
 struct BuoyWebService: WebService {
