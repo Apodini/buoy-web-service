@@ -49,4 +49,5 @@ jobs:
           docker_username: ${{ secrets.DOCKER_UN }}
           docker_password: ${{ secrets.DOCKER_SECRET }}
     - name: Build and Run Provider
-      run: pwd; ls; swift run BuoyDeploymentTarget --config-file $(pwd)/config.json --docker-compose-path docker-compose.yml
+      run: pwd; ls; cd buoy-deployment-provider; ls
+# swift run BuoyDeploymentTarget --config-file $(pwd)/config.json --docker-compose-path docker-compose.yml
