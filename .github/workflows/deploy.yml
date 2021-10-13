@@ -19,35 +19,28 @@ jobs:
       uses: actions/checkout@v2
       with:
         path: buoy-deployment-provider
-    - name: Go to deployment provider dir
-      run: pwd
-    - name: Test
-      run: cd ..
-    - name: Go to deployment provider test
-      run: pwd
     - name: Create Config File
       run: > 
           echo "
                 [
                   {
-                    "_workstation._tcp.":
+                    "\"_workstation._tcp.\"":
                     {
-                        "username": "ubuntu",
-                        "password": "raspberry"
+                        "\"username"\": "\"ubuntu"\",
+                        "\"password"\": "\"raspberry"\"
                     }
                   },
                   {
-                    "docker-compose": 
+                    "\"docker-compose"\": 
                     {
-                      "username": "$docker_username",
-                      "password": "$docker_password"
+                      "\"username": "\"$docker_username"\",
+                      "\"password"\": "\"$docker_password"\"
                     }
                   }
                 ]
                 " > config.json
       env:
           docker_username: ${{ secrets.DOCKER_UN }}
-          docker_password: ${{ secrets.DOCKER_SECRET }}
+          docker_password: ${{ secrets.DOCKER_UN_SECRET }}
     - name: Build and Run Provider
-      run: pwd; ls; cd buoy-deployment-provider; ls
-# swift run BuoyDeploymentTarget --config-file $(pwd)/config.json --docker-compose-path docker-compose.yml
+      run: swift run BuoyDeploymentTarget --config-file config.json --docker-compose-path buoy-deployment-provider/docker-compose.yml
