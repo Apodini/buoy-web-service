@@ -1,4 +1,4 @@
-name: Deployment
+name: Evaluation
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ develop ]
 
 jobs:
-  deploy:
+  evaluate_buoy:
     runs-on: self-hosted
     steps:
     - name: Clone Deployment Provider Repo
@@ -42,7 +42,9 @@ jobs:
       env:
           docker_username: ${{ secrets.DOCKER_UN_SECRET }}
           docker_password: ${{ secrets.DOCKER_SECRET }}
-    - name: Build Provider
-      run:  swift build
-    - name: Run Provider
-      run:  bash scripts/buoy_simulation
+    #- name: Build Provider
+    # run:  swift build
+    - name: Test
+      run:  echo "${ls -a}"
+    # - name: Run Provider
+    #  run:  bash scripts/buoy_simulation
