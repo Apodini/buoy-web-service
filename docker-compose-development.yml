@@ -4,7 +4,7 @@ services:
   # An Apodini Buoy Web Service
   buoy-web-service:
     container_name: "buoy-web-service"
-    image: "ghcr.io/fa21-collaborative-drone-interactions/buoywebservice:latest"
+    image: "hendesi/master-thesis:buoy-web-service"
     build:
       context: ./
       dockerfile: ./WebService/Dockerfile
