@@ -42,9 +42,7 @@ jobs:
       env:
           docker_username: ${{ secrets.DOCKER_UN_SECRET }}
           docker_password: ${{ secrets.DOCKER_SECRET }}
-    #- name: Build Provider
-    # run:  swift build
-    - name: Test
+    - name: Build Provider
+      run:  swift build
+    - name: Run Provider
       run:  ./scripts/buoy_simulation.sh
-    # - name: Run Provider
-    #  run:  bash scripts/buoy_simulation
