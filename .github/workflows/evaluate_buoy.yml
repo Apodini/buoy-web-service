@@ -45,6 +45,6 @@ jobs:
     #- name: Build Provider
     # run:  swift build
     - name: Test
-      run:  echo "${ls -a}"
+      run:  ls -a
     # - name: Run Provider
     #  run:  bash scripts/buoy_simulation
